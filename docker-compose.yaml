@@ -1,5 +1,37 @@
 services:
-  app :
-    build: ./api/
-  db:
-    build: ./database/
+  api:
+    container_name: movie_service
+    image: movie_service_image
+    build: api/
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0'
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  database:
+    container_name: postgres_db
+    hostname: postgres_db
+    image: postgres:16.0-bookworm
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=app
+      - POSTGRES_DB=app
+
+  cache:
+    container_name: redis_cache
+    hostname: redis_cache
+    image: redis:7.2-bookworm
+    ports:
+      - 6379:6379
+    command:
+      - 'redis-server'
+      - '--requirepass myStrongPassword'
+
+volumes:
+  postgres_volume:
+    driver: "local"
