@@ -1,2 +1,2 @@
 # fastapi-movies
-Example REST API built using Python, FastAPI and PostgreSQL. 
+Example REST API built using Python, FastAPI and PostgreSQL.

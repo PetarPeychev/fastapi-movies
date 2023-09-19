@@ -9,4 +9,13 @@ router = APIRouter(
 
 @router.get("/")
 async def get_movies():
-    return {}
+    return {
+        "movies": [
+            {
+                "title": "The Godfather",
+                "year": 1972,
+                "rating": 9.2,
+                "actors": ["Marlon Brando", "Al Pacino"],
+            }
+        ]
+    }

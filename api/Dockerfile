@@ -13,4 +13,5 @@ COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
 # Copy service code
-COPY movie_service _version.py README.md setup.py ./
+COPY movie_service movie_service
+COPY _version.py README.md setup.py ./

@@ -3,11 +3,14 @@ services:
     container_name: movie_service
     image: movie_service_image
     build: api/
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0'
+    command: bash -c 'uvicorn movie_service.main:app --host 0.0.0.0 --reload'
+    volumes:
+      - ./api/movie_service:/app/movie_service
     ports:
       - "8000:8000"
     depends_on:
       - database
+      - cache
 
   database:
     container_name: postgres_db
@@ -30,7 +33,7 @@ services:
       - 6379:6379
     command:
       - 'redis-server'
-      - '--requirepass myStrongPassword'
+      - '--requirepass app'
 
 volumes:
   postgres_volume:
