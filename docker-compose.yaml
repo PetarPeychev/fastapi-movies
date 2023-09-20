@@ -21,9 +21,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=app
-      - POSTGRES_PASSWORD=app
-      - POSTGRES_DB=app
+      - POSTGRES_USER=pg_user
+      - POSTGRES_PASSWORD=pg_pass
+      - POSTGRES_DB=pg_db
 
   cache:
     container_name: redis_cache
@@ -33,7 +33,7 @@ services:
       - 6379:6379
     command:
       - 'redis-server'
-      - '--requirepass app'
+      - '--requirepass redis_pass'
 
 volumes:
   postgres_volume:
